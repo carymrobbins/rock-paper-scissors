@@ -16,8 +16,8 @@ main = do
     putListLn ["Computer picks ", show computer]
     putListLn ["You ", show $ human `against` computer]
     putStrLn "Would you like to play again? (y/n)"
-    (firstChar:_) <- getLine
-    if toUpper firstChar == 'Y' then main else return ()
+    response <- getLine
+    if map toUpper response == "Y" then main else return ()
 
 showChoices :: String
 showChoices = concat . intersperse ", " . map show $ (autoEnum :: [Choice])
