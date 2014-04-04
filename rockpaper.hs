@@ -15,10 +15,12 @@ main = do
     computer <- computerChoice
     putListLn ["Computer picks ", show computer]
     putListLn ["You ", show $ human `against` computer]
+    putStrLn "Would you like to play again? (y/n)"
+    (firstChar:_) <- getLine
+    if toUpper firstChar == 'Y' then main else return ()
 
 showChoices :: String
-showChoices = concat . intersperse ", " . map show choices
-  where choices = autoEnum :: [Choices]
+showChoices = concat . intersperse ", " . map show $ (autoEnum :: [Choice])
 
 invert :: Outcome -> Outcome
 invert Win = Lose
@@ -31,12 +33,6 @@ Paper `against` Scissors  = Lose
 Scissors `against` Rock   = Lose
 x `against` y | x == y    = Draw
               | otherwise = invert $ y `against` x
-
-getWinner :: Choice -> Choice -> Maybe Choice
-getWinner x y | outcome == Win  = Just x
-              | outcome == Lose = Just y
-              | otherwise       = Nothing
-  where outcome = x `against` y
 
 computerChoice :: IO Choice
 computerChoice = randomPick autoEnum
