@@ -6,7 +6,8 @@ import Text.Read (readMaybe)
 
 data Player = Human | Computer deriving (Show)
 data Outcome = Win | Lose | Draw deriving (Show, Eq)
-data Choice = Rock | Paper | Scissors deriving (Show, Read, Eq, Enum)
+data Choice = Rock | Paper | Scissors | Lizard | Spock
+    deriving (Show, Read, Eq, Enum)
 
 main :: IO ()
 main = do
@@ -29,8 +30,15 @@ invert Draw = Draw
 
 against :: Choice -> Choice -> Outcome
 Rock `against` Paper      = Lose
+Rock `against` Spock      = Lose
 Paper `against` Scissors  = Lose
+Paper `against` Lizard    = Lose
 Scissors `against` Rock   = Lose
+Scissors `against` Spock  = Lose
+Lizard `against` Rock     = Lose
+Lizard `against` Scissors = Lose
+Spock `against` Paper     = Lose
+Spock `against` Lizard    = Lose
 x `against` y | x == y    = Draw
               | otherwise = invert $ y `against` x
 
