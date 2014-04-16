@@ -4,7 +4,6 @@ import Data.List (intersperse)
 import System.Random (randomIO)
 import Text.Read (readMaybe)
 
-data Player = Human | Computer deriving (Show)
 data Outcome = Win | Lose | Draw deriving (Show, Eq)
 data Choice = Rock | Paper | Scissors | Lizard | Spock
     deriving (Show, Read, Eq, Enum)
@@ -23,11 +22,6 @@ main = do
 showChoices :: String
 showChoices = concat . intersperse ", " . map show $ (autoEnum :: [Choice])
 
-invert :: Outcome -> Outcome
-invert Win = Lose
-invert Lose = Win
-invert Draw = Draw
-
 against :: Choice -> Choice -> Outcome
 Rock `against` Paper      = Lose
 Rock `against` Spock      = Lose
@@ -40,7 +34,7 @@ Lizard `against` Scissors = Lose
 Spock `against` Paper     = Lose
 Spock `against` Lizard    = Lose
 x `against` y | x == y    = Draw
-              | otherwise = invert $ y `against` x
+              | otherwise = Win
 
 computerChoice :: IO Choice
 computerChoice = randomPick autoEnum
